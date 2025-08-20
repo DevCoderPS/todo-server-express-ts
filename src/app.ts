@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 
 import connectDB from "./config/database";
 import { connectRedis } from "./config/redis";
+import { errorHandler } from "./middleware/error.middleware";
 
 // Load environment variables
 dotenv.config();
@@ -39,6 +40,9 @@ app.get("/health", (req, res) => {
     timestamp: new Date().toISOString(),
   });
 });
+
+// Error handling middleware (should be last)
+app.use(errorHandler);
 
 // Start server
 const startServer = async (): Promise<void> => {
